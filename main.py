@@ -7,8 +7,10 @@ import os
 app = FastAPI()
 
 # 마스터 플랜: 토큰은 환경변수에서만 읽는다 (하드코딩 금지)
+# Render 환경변수에서 토큰을 가져오고, 로컬 테스트용 기본값 지정
+API_TOKEN = os.getenv("MODEL_API_TOKEN", "default_secret_token")
 # 배포 플랫폼(Replicate/HF Spaces 등)의 환경변수 설정에 MODEL_API_TOKEN을 등록해야 함
-EXPECTED_TOKEN = os.environ.get("MODEL_API_TOKEN")
+EXPECTED_TOKEN = f"Bearer {API_TOKEN}"
 
 if not EXPECTED_TOKEN:
     # 서버 기동 시점에 바로 경고 — 배포 환경에서 토큰 설정을 깜빡하는 실수를 조기에 발견하기 위함
